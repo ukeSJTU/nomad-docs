@@ -1,5 +1,6 @@
 import '@/app/global.css';
 import { RootProvider } from 'fumadocs-ui/provider/next';
+import 'katex/dist/katex.css';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({

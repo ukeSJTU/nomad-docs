@@ -305,3 +305,23 @@ This section discusses the problems or difficulties encountered during the above
 项目期末汇报
 </Step>
 </Steps>
+
+<Mermaid chart="gantt
+    title Nomad 项目进度规划
+    dateFormat YYYY-MM-DD
+    
+    section 需求阶段
+    明确并制定完整需求文档           :milestone, m1, 2025-10-17, 0d
+    中期汇报-需求                    :milestone, m2, 2025-10-20, 0d
+    
+    section 开发阶段
+    中期汇报-协作与进展               :milestone, m3, 2025-11-17, 0d
+    实现所有 Must have 需求          :crit, active, dev1, 2025-10-20, 2025-11-24
+    
+    section 完善阶段
+    实现所有 Should have 需求        :dev2, 2025-11-24, 2025-12-15
+    实现部分 Could have 需求         :dev3, 2025-12-15, 2025-12-22
+    
+    section 结束阶段
+    项目期末汇报                     :milestone, m4, 2025-12-29, 0d"
+/>

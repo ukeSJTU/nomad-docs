@@ -1,0 +1,12 @@
+{
+  "title": "中期汇报-需求",
+  "icon": "Presentation",
+  "pages": [
+    "project-selection",
+    "requirements-extraction",
+    "requirements-management",
+    "ai-implementation",
+    "challenges-solutions",
+    "progress-planning"
+  ]
+}

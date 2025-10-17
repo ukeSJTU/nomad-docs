@@ -3,6 +3,8 @@
   "pages": [
     "---介绍---",
     "index",
+    "techstack",
+    "fumadocs",
     "---需求文档说明---",
     "introduction",
     "overall-description",

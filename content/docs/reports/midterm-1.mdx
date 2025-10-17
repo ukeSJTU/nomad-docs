@@ -77,27 +77,156 @@ This section describes the total number of requirements extracted from the proje
 
 ## 4. AI辅助实现
 
-Sparkles
+> 如何借助AI来实现需求，提示词、实现流程是什么（计划或已经开始实践）
 
-如何借助AI来实现需求，提示词、实现流程是什么（计划或已经开始实践）；
+### GitHub Issue 创建助手
 
-This section outlines how AI is leveraged to implement requirements, including prompts used, implementation workflow, and plans or practices already initiated.
+这是我们单独配置的一个Trae智能体，添加了`GitHub MCP`。通过明确的提示词，让智能体创建清晰的Issue内容：
 
-我们计划或已经开始在项目的多个环节利用AI大模型（如Gemini/GPT）来提升效率和质量：
+<Steps>
+<Step>
+#### 第一步：初步评估
+1. 仔细分析用户描述的想法（如新功能需求、bug 报告等）
+2. 判断这个想法是否适合作为 GitHub Issue 提出
+3. 如果不适合，详细说明原因并停止流程
+4. 如果适合，继续下一步
+</Step>
 
-需求阶段：
+<Step>
+#### 第二步：模板分析
+1. 在当前仓库中查找 Issue 模板，通常位于 `.github/ISSUE_TEMPLATE/` 目录
+2. 根据用户的想法类型（功能请求、bug 报告等）选择最合适的模板
+3. 仔细阅读模板内容，理解创建该类型 Issue 需要哪些具体信息
+4. 如果没有找到合适的模板，使用通用的 Issue 创建格式
+</Step>
 
-需求检查与场景生成： 我们使用AI来检查用户故事的完整性，并基于一个功能点（如“密码重置”）进行头脑风暴，生成我们可能忽略的边缘和异常场景。
+<Step>
+#### 第三步：信息收集与完善
+1. 基于模板要求，分析当前已有的信息是否充足
+2. 查看仓库代码、文档等相关内容，尽可能补充缺失的信息
+3. 如果仍有关键信息缺失，向用户提出具体的问题
+4. 根据用户回答继续完善，直到所有必要信息都已明确
+</Step>
 
-提示词示例： “作为一个软件工程团队，我们正在为一个OTA平台编写需求。请为‘用户登录’这个用户故事，用Gherkin语法生成至少5个验收场景，必须包括成功、密码错误、用户不存在、输入为空等情况。”
+<Step>
+#### 第四步：创建 Issue
+1. 使用收集到的信息，按照模板格式创建 Issue
+2. 运行`git remote -v`获取owner/repo等信息
+3. 使用 GitHub MCP 工具创建 Issue
+</Step>
+</Steps>
 
-设计与开发阶段（计划）：
+### GitHub Pull Request 创建助手
 
-技术选型研究： 向AI咨询不同技术方案的优劣，例如：“为OTA项目的订单系统，比较关系型数据库(PostgreSQL)和非关系型数据库(MongoDB)的优缺点。”
+这是我们单独配置的一个Trae智能体，添加了`GitHub MCP`。通过明确的提示词，让智能体创建清晰的Pull Request内容：
 
-代码片段生成与解释： 对于不熟悉的技术点（如GitHub OAuth流程），我们会让AI生成核心逻辑的代码框架，并要求其提供详细的注释和解释，以加速我们的学习和开发。
+<Steps>
+<Step>
+#### 第一步：分支状态检查
+1. 使用 `git branch --show-current` 命令获取当前分支名称
+2. 使用 `git status` 检查工作区状态
+3. 使用 `git log --oneline origin/develop..HEAD` 或类似命令检查当前分支是否已推送到远程
+4. 如果分支未推送到远程，提示用户运行 `git push --set-upstream origin <branch-name>` 并暂停流程
+5. 确认分支已推送后继续下一步
+</Step>
 
-测试用例生成： 基于Gherkin场景，让AI生成对应的单元测试或集成测试的代码模板。
+<Step>
+#### 第二步：获取代码差异
+优先使用 GitHub MCP 工具获取分支差异：
+1. 首先尝试使用 `mcp_GitHub_get_pull_request_files` 或相关接口获取文件变更
+2. 如果 MCP 工具无法获取差异，则使用 Git 命令获取文件变更
+3. 分析代码变更的性质（功能添加、bug 修复、重构等）
+</Step>
+
+<Step>
+#### 第三步：搜索相关 Issue
+1. 使用 `mcp_GitHub_search_issues` 搜索可能相关的 Issue
+2. 根据分支名称、提交信息、代码变更内容进行智能匹配
+3. 如果找到相关 Issue，记录 Issue 编号用于 PR 描述中引用
+</Step>
+
+<Step>
+#### 第四步：读取 PR 模板
+1. 读取 `.github/pull_request_template.md` 文件
+2. 如果没有找到模板文件，使用通用的 PR 格式
+3. 分析模板要求的各个部分（描述、测试、检查清单等）
+</Step>
+
+<Step>
+#### 第五步：生成 PR 内容
+</Step>
+
+<Step>
+#### 第六步：用户确认与调整
+1. 向用户展示生成的 PR 内容
+2. 询问用户是否需要修改，根据用户反馈进行调整，直到用户满意
+3. 等用户满意后，询问用户希望创建正式 PR 还是 Draft PR
+</Step>
+
+<Step>
+#### 第七步：创建 Pull Request
+1. 使用 `mcp_GitHub_create_pull_request` 创建 PR
+2. 根据用户选择设置 `draft` 参数
+3. 设置正确的 `head` 分支（当前分支）和 `base` 分支（通常是 develop 除非用户额外要求）
+4. 创建成功后向用户报告 PR 链接
+</Step>
+</Steps>
+
+### 自动生成commit message
+
+我们的小组项目通过`pre-commit` hook来确保commit message符合conventional commit的规范，进而提高code review的效率，方便reviewer快速了解其他人对代码的修改。但是每次手写commit message有时候非常烦人，因此借助vscode-copilot插件，并在项目的`.vscode/settings.json`中进行如下配置：
+
+```json
+// VSCode integrated Copilot Commit Message Templates
+"github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+        "text": "Use conventional commit format: type(scope): description"
+    },
+    {
+        "text": "Type must be one of: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+    },
+    {
+        "text": "Type must be in lowercase"
+    },
+    {
+        "text": "Subject must start with lowercase, avoid sentence-case, start-case, pascal-case, or upper-case"
+    },
+    {
+        "text": "Subject cannot be empty"
+    },
+    {
+        "text": "Subject must not end with a period (.)"
+    },
+    {
+        "text": "Header (type + scope + subject) must not exceed 100 characters"
+    },
+    {
+        "text": "Use imperative mood: 'add feature' not 'added feature'"
+    },
+    {
+        "text": "If body exists, there must be a blank line between subject and body"
+    },
+    {
+        "text": "Body lines must not exceed 100 characters each"
+    },
+    {
+        "text": "If footer exists, there must be a blank line between body and footer"
+    },
+    {
+        "text": "Footer lines must not exceed 100 characters each"
+    },
+    {
+        "text": "Scope is optional, use when relevant (e.g., api, ui, auth)"
+    },
+    {
+        "text": "For breaking changes, use 'BREAKING CHANGE:' in footer"
+    },
+    {
+        "text": "Generate commit messages in English only"
+    }
+]
+```
+
 
 ## 5. 问题与解决方案
 
@@ -123,21 +252,56 @@ This section discusses the problems or difficulties encountered during the above
 
 ## 6. 进度与规划
 
-Calendar
+> 目前实现的效果（如果有），未来进度规划。
 
-目前实现的效果（如果有），未来进度规划。
+### 项目进度
 
-This section presents the current implementation results (if any) and outlines the future progress plan.
+我们小组目前已经实现了以下功能，欢迎体验点击下面的链接体验。
 
-我们小组的项目已经实现了注册/登录/常用用户管理的功能。部署链接：xxx，欢迎体验
+- 手机号注册/登录
+- 邮箱注册/登录
+- 常用旅客信息管理
 
-代码链接：xxx
+部署链接：https://nomad.vercel.app
+
+<Callout title="请注意" type="warning">
+    短信发送和邮件发送都是付费的，因此中期汇报暂时没有启用，请直接用GitHub OAuth登录体验。
+</Callout>
+
+源代码链接：https://github.com/ukeSJTU/nomad
+
+本文档代码链接：https://github.com/ukeSJTU/nomad-docs
+
+### 项目规划
 
 <Steps>
 <Step>
-### Hello World
+#### 节点1: 2025-10-17
+明确并制定完整需求文档。
 </Step>
+
 <Step>
-### Hello World
+#### 节点2: 2025-10-20
+中期汇报-需求
+</Step>
+
+<Step>
+#### 节点3: 2025-11-17
+中期汇报-协作与进展
+</Step>
+
+<Step>
+#### 节点4: 2025-11-24
+实现所有 Must have 需求
+</Step>
+
+<Step>
+#### 节点5: 2025-12-22
+实现所有 Should have 以及部分 Could have 需求
+</Step>
+
+<Step>
+#### 节点6: 2025-12-29
+项目期末汇报
 </Step>
 </Steps>

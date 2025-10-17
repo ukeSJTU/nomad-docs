@@ -1,4 +1,4 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 /**
  * Shared layout configurations
@@ -8,23 +8,19 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  * Docs Layout: app/docs/layout.tsx
  */
 export function baseOptions(): BaseLayoutProps {
-  return {
-    nav: {
-      title: (
-        <>
-          <svg
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-label="Logo"
-          >
-            <circle cx={12} cy={12} r={12} fill="currentColor" />
-          </svg>
-          My App
-        </>
-      ),
-    },
-    // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [],
-  };
+    return {
+        nav: {
+            title: (
+                <>
+                    <svg width="36" height="24" viewBox="0 0 175 87">
+                        <polygon points="50,0 0,87 100,87" fill="#2A64A8" />
+                        <polygon points="75,0 175,0 125,87" fill="#EA5B2B" />
+                    </svg>
+                    Nomad
+                </>
+            ),
+        },
+        // see https://fumadocs.dev/docs/ui/navigation/links
+        links: [],
+    };
 }

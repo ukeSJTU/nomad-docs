@@ -5,6 +5,6 @@
     "user-module",
     "flight-module",
     "order-module",
-    "admin-panel"
+    "payment-module"
   ]
 }

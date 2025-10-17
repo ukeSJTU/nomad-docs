@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Mermaid } from '@/components/mdx/mermaid';
 import * as Twoslash from 'fumadocs-twoslash/ui';
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom';

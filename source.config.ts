@@ -1,4 +1,4 @@
-import { rehypeCodeDefaultOptions } from 'fumadocs-core/mdx-plugins';
+import { rehypeCodeDefaultOptions, remarkMdxFiles } from 'fumadocs-core/mdx-plugins';
 import {
   defineConfig,
   defineDocs,
@@ -27,7 +27,7 @@ export const docs = defineDocs({
 export default defineConfig({
   mdxOptions: {
     // MDX options
-    remarkPlugins: [remarkMath],
+    remarkPlugins: [remarkMath, remarkMdxFiles],
     rehypePlugins: (v) => [rehypeKatex, ...v],
     rehypeCodeOptions: {
       themes: {

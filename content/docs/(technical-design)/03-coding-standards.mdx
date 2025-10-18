@@ -3,15 +3,13 @@ title: 开发规范
 icon: ClipboardCheck
 ---
 
-# 项目结构和开发规范
-
-本文档详细说明了 Nomad 项目的文件组织方式、命名规范和最佳实践，帮助团队成员了解项目结构并遵循统一的开发规范。
-
 ## 目录结构说明
 
 ### 主要目录结构
 
-```
+import { File, Files, Folder } from 'fumadocs-ui/components/files';
+
+```files
 src/
 ├── app/                    # Next.js App Router 页面和布局
 │   ├── globals.css        # 全局样式文件
@@ -38,21 +36,6 @@ src/
 │   └── index.ts         # 统一导出所有类型
 └── utils/               # 专用工具函数
     └── logger.ts        # 日志工具等专用功能
-```
-
-### 根目录重要文件和目录
-
-```
-├── tests/               # E2E 测试文件（Playwright）
-├── docs/               # 项目文档
-├── public/             # 静态资源文件
-├── .github/            # GitHub 配置和模板
-├── .husky/             # Git hooks 配置
-├── components.json     # shadcn/ui 配置文件
-├── drizzle.config.ts   # 数据库 ORM 配置
-├── tsconfig.json       # TypeScript 配置
-├── package.json        # 项目依赖和脚本
-└── *.test.ts          # 单元测试文件（与被测试文件同级）
 ```
 
 ## 导入规范
@@ -116,7 +99,7 @@ import "./styles.css";
 
 采用 **功能域 + 类型细分** 的混合策略：
 
-```
+```files
 src/components/
 ├── ui/                    # shadcn/ui 组件
 ├── common/               # 通用组件
@@ -266,7 +249,7 @@ const NavigationMenu = () => {};
 - 使用 `.test.ts` 或 `.test.tsx` 后缀
 - 使用 Vitest 作为测试框架
 
-```
+```files
 src/lib/
 ├── utils.ts
 └── utils.test.ts
@@ -282,7 +265,7 @@ src/components/auth/
 - 使用 `.spec.ts` 后缀
 - 使用 Playwright 作为测试框架
 
-```
+```files
 tests/
 ├── auth.spec.ts
 ├── dashboard.spec.ts
@@ -295,7 +278,7 @@ tests/
 
 放在 `src/lib/schema/` 目录下，用于 Drizzle ORM：
 
-```
+```files
 src/lib/schema/
 ├── users.ts        # 用户表 schema
 ├── posts.ts        # 文章表 schema
@@ -306,7 +289,7 @@ src/lib/schema/
 
 放在 `src/types/` 目录下：
 
-```
+```files
 src/types/
 ├── api.ts          # API 相关类型
 ├── auth.ts         # 认证相关类型和 Zod schemas

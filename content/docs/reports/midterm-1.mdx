@@ -141,7 +141,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 - **Could Have (可以实现)**：站内信息系统、机票选座
 - **Won't Have (本次不做)**：完整的后台管理系统、真实支付网关、UGC内容
 
-这确保了我们能首先集中精力交付产品的核心价值。
+这确保了我们能首先集中精力交付产品的核心价值。完整内容请看[项目范围](/docss/introduction/scope)
 
 ### 场景描述 - BDD & Gherkin语法
 
@@ -158,9 +158,11 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 - **Then** 系统应验证通过，并将用户引导至注册流程第二步（设置密码页）
 </Callout>
 
+更多例子请看每一个功能需求的`4. 验收标准(Acceptance Criteria)`部分，例如[这里](/docs/functional-requirements/user-module#4-验收标准-acceptance-criteria)
+
 ### 文档化
 
-所有需求都已在我们的 **Fumadocs 文档系统**中进行结构化管理，包括：
+所有需求都已在我们的 **Fumadocs 文档系统**，也就是本网站中进行结构化管理，包括：
 
 - 项目目标与范围
 - 用户画像与业务流程
@@ -354,15 +356,22 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 **解决方案**：我们决定采用 **BDD和Gherkin语法**。通过将需求转化为具体的行为场景（Given/When/Then），我们为团队提供了统一、无歧义的沟通语言，确保了开发和测试的“一个标准”。
 
-#### 问题3：技术选型的权衡
+#### 问题3：架构选型：前后端分离 vs. 一体化全栈
 
-**描述**：在选择前端框架时，团队在 Next.js Pages Router 和 App Router 之间犹豫不决。
+**描述**：在项目启动时，我们面临的第一个关键架构决策是：选择传统的前后端分离架构（例如 React + FastAPI）还是一体化的全栈框架（例如 Next.js）？
 
-**解决方案**：经过调研和讨论，我们最终选择了 **Next.js 15 App Router**，原因如下：
-- 更好的服务端组件支持，提升性能
-- 更现代的路由系统，符合React 19的最佳实践
-- 更好的TypeScript支持
-- 虽然学习曲线较陡，但长期收益更大
+**解决方案**：经过深入的调研和团队讨论，我们最终决定采用 Next.js 一体化全栈的开发模式。我们认为，对于我们这个规模和周期的项目，其带来的优势远大于挑战。做出这个决策的关键理由如下：
+
+1. **极致的开发效率与集成度**:
+    - 在分离架构中，我们需要花费大量时间设计、编写、维护一个独立的API层（如RESTful或GraphQL），并处理跨语言、跨仓库的协作问题。
+    - 而Next.js通过 Server Actions，几乎完全消除了编写API样板代码的需要，让我们可以直接在后端调用函数，极大地提升了开发速度，使我们能更专注于业务逻辑的实现。
+2. **端到端类型安全**:
+    - 这是我们做出选择的决定性因素之一。在分离架构中（如TS+Python），要保证前后端数据类型的一致性非常困难，是常见的Bug来源。
+    - 而在Next.js的全栈TypeScript环境中，我们可以轻松地在数据库（Drizzle的Schema）、后端服务逻辑（Server Actions）和前端UI组件之间共享类型定义。这为我们带来了从数据库到用户界面的、无缝的类型安全保障，能让AI和编译器在编码阶段就发现大量潜在的集成错误。
+3. **显著的性能优势**:
+    - Next.js 15 的 Server Components 允许我们在服务器上直接获取数据并渲染成HTML，发送到客户端的JavaScript极少。这能带来更快的初始页面加载速度（FCP/LCP），直接有助于我们达成在非功能需求中定义的性能指标。
+4. **与AI辅助开发的协同效应**:
+    - 这一点与本课程的特色高度契合。一个统一、单体的全栈代码库，为AI编程助手提供了更完整、更丰富的上下文。当我们需要AI辅助编写或重构一个功能时，AI可以同时“看到”数据库的结构、后端的逻辑和前端的UI，从而给出更精准、更符合项目实际的代码建议。我们发现，Next.js作为国外最热门的框架之一，主流AI模型的知识库对其支持也最全面。
 
 ## 6. 进度与规划
 
@@ -371,6 +380,20 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 ### 项目进度
 
 我们小组目前已经实现了以下功能，欢迎点击下面的链接体验。
+
+#### 体验链接
+
+<Callout title="在线体验" type="info">
+**部署链接**：[https://nomad.ukehome.top](https://nomad.ukehome.top)
+
+**源代码**：[https://github.com/ukeSJTU/nomad](https://github.com/ukeSJTU/nomad)
+
+**文档系统**：[https://github.com/ukeSJTU/nomad-docs](https://github.com/ukeSJTU/nomad-docs)
+</Callout>
+
+<Callout title="请注意" type="warn">
+短信发送和邮件发送都是付费的，因此中期汇报暂时没有启用，请直接用 **GitHub OAuth** 登录体验。
+</Callout>
 
 #### 已实现功能
 
@@ -387,34 +410,21 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 - **全栈框架**：Next.js 15 (App Router) + TypeScript
 - **UI组件库**：shadcn/ui + Tailwind CSS，支持深色模式
 - **数据库**：PostgreSQL + Drizzle ORM
-- **认证方案**：NextAuth.js v5 (支持多种登录方式)
+- **认证方案**：Better-Auth (支持多种登录方式)
 - **部署平台**：Vercel (前端) + Neon (数据库)
 - **开发规范**：ESLint + Prettier + Conventional Commits
-
-#### 体验链接
-
-<Callout title="在线体验" type="info">
-**部署链接**：[https://nomad.ukehome.top](https://nomad.ukehome.top)
-
-**源代码**：[https://github.com/ukeSJTU/nomad](https://github.com/ukeSJTU/nomad)
-
-**文档系统**：[https://github.com/ukeSJTU/nomad-docs](https://github.com/ukeSJTU/nomad-docs)
-</Callout>
-
-<Callout title="请注意" type="warn">
-短信发送和邮件发送都是付费的，因此中期汇报暂时没有启用，请直接用 **GitHub OAuth** 登录体验。
-</Callout>
 
 ### 需求文档体系
 
 我们建立了完整的需求文档体系，所有文档都托管在 Fumadocs 系统中，包括：
 
 <Cards>
-  <Card title="引言部分" description="项目目标 | 项目范围 | 目标用户 | 术语定义" href="/docs/introduction/project-purpose" />
-  <Card title="总体描述" description="产品愿景 | 用户特征 | 业务流程图 | 假设与约束" href="/docs/overall-description/product-vision" />
-  <Card title="功能需求" description="用户模块 | 机票模块 | 订单模块 | 支付模块" href="/docs/functional-requirements/user-module" />
-  <Card title="非功能需求" description="性能 | 安全 | 兼容性 | 可用性" href="/docs/non-functional-requirements/performance" />
-  <Card title="技术设计" description="架构设计 | 数据库设计 | 开发规范 | Git工作流" href="/docs/architecture" />
+  <Card title="引言部分" description="项目目标 | 项目范围 | 目标用户 | 术语定义" href="/docs/introduction
+  " />
+  <Card title="总体描述" description="产品愿景 | 用户特征 | 业务流程图 | 假设与约束" href="/docs/overall-description" />
+  <Card title="功能需求" description="用户模块 | 机票模块 | 订单模块 | 支付模块" href="/docs/functional-requirements" />
+  <Card title="非功能需求" description="性能 | 安全 | 兼容性 | 可用性" href="/docs/non-functional-requirements" />
+  <Card title="技术设计" description="架构设计 | 数据库设计 | 开发规范 | Git工作流" href="/docs/01-architecture" />
 </Cards>
 
 ### 项目规划
